@@ -33,30 +33,25 @@ public class Animal {
 
  }  */
 
-    ArrayList<String> animalList = new ArrayList<>();
 
-    String name;
-    String species;
-    String breed;
-    String description;
-    private String animal;
+    private String name;
+    private String species;
+    private String breed;
+    private String description;
 
+    public Animal(String name, String species, String breed, String description) {
 
-    public Animal(){
-
-
-
-
-       animalList.add("1. Roger           cat\n");
-       animalList.add("2. Bert            dog\n");
-       animalList.add("3. Ryan            hamster\n");
-       animalList.add("4. Shaun           bat\n");
-
+        this.name = name;
+        this.species = species;
+        this.breed = breed;
+        this.description = description;
 
     }
 
     public String getName() {
-        return name;
+
+        return this.name;
+
     }
 
     public void setName(String name) {
@@ -64,30 +59,38 @@ public class Animal {
     }
 
     public String getSpecies() {
-        return species;
+
+        return this.species;
+
     }
 
     public void setSpecies(String species) {
+
         this.species = species;
     }
 
     public String getBreed() {
-        return breed;
+
+        return this.breed;
+
     }
 
     public void setBreed(String breed) {
+
         this.breed = breed;
     }
 
+
     public String getDescription() {
-        return description;
+
+        return this.description;
     }
 
     public void setDescription(String description) {
+
         this.description = description;
+
     }
 
-    public ArrayList<String> getAnimalList() {
-        return animalList;
-    }
+
 }
