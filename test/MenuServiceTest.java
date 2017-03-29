@@ -1,9 +1,12 @@
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -24,6 +27,29 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class MenuServiceTest {
 
+
+    ByteArrayOutputStream outputStream;
+    ArrayList<Animal> animals;
+
+    @Before
+    public void before(){
+        // setup output capturing
+        this.outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(this.outputStream);
+        System.setOut(printStream);
+
+
+        animals = new ArrayList<>();
+        animals.add(new Animal(
+               ));
+        animals.add(new Animal(
+                )
+        );
+        animals.add(new Animal(
+
+        ));
+    }
+
     @Test
 
 public void when1OnMainMenuThen1(){
@@ -42,6 +68,14 @@ public void when1OnMainMenuThen1(){
 
     public void whenMainMenuThenMenuPrinted(){
 
+    Scanner scanner = new Scanner("1");
+    MenuService menu = new MenuService(scanner);
+
+    // Act
+    menu.promptForMainMenu();
+
+    // Assert
+    assertThat(this.outputStream.toString(), containsString("-- Main Menu --"));
 
 
 
@@ -82,6 +116,51 @@ public void when1OnMainMenuThen1(){
 
         // Assert
         assertThat(selection, equalTo(3));
+    }
+
+
+
+    @Test
+
+    public void when4OnMainMenuThen4(){
+        // Arrange
+        Scanner scanner = new Scanner("4");
+        MenuService menu = new MenuService(scanner);
+
+        // Act
+        int selection = menu.promptForMainMenu();
+
+        // Assert
+        assertThat(selection, equalTo(4));
+    }
+
+
+    @Test
+
+    public void when5OnMainMenuThen5(){
+        // Arrange
+        Scanner scanner = new Scanner("5");
+        MenuService menu = new MenuService(scanner);
+
+        // Act
+        int selection = menu.promptForMainMenu();
+
+        // Assert
+        assertThat(selection, equalTo(5));
+    }
+
+    @Test
+
+    public void when6OnMainMenuThen6(){
+        // Arrange
+        Scanner scanner = new Scanner("6");
+        MenuService menu = new MenuService(scanner);
+
+        // Act
+        int selection = menu.promptForMainMenu();
+
+        // Assert
+        assertThat(selection, equalTo(6));
     }
 
 }

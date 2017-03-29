@@ -35,5 +35,19 @@ public class MenuService {
 
         System.out.println(prompt);
 
+        if(!scanner.hasNextInt()){
+
+            String badInput = scanner.next();
+
+
+            System.out.printf("'%s' is not a valid number. Please try again.\n", badInput);
+
+
+            return waitForInt(prompt);
+        } else {
+
+            return scanner.nextInt();
+        }
+
     }
 }
