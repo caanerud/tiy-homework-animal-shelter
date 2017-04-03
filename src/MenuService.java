@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuService {
@@ -13,7 +14,7 @@ public class MenuService {
     private Scanner scanner;
 
     public MenuService(Scanner scanner) {
-        this.scanner = scanner;
+        this.scanner = scanner.useDelimiter("\n");
     }
 
     public int promptForMainMenu() {
@@ -50,4 +51,124 @@ public class MenuService {
         }
 
     }
+
+    public String waitForString(String prompt, boolean needInput){
+
+        System.out.println(prompt);
+
+        String userInput = scanner.next();
+
+        if(needInput == true && userInput.isEmpty()){
+
+            System.out.println("This must be filled in with the correct information.");
+
+            return waitForString(prompt, needInput);
+
+        }else{
+
+            return userInput;
+        }
+
+
+
+
+
+
+
+    }
+
+    public void displayListOfAnimals(ArrayList<Animal> animalList) {
+
+        System.out.println("\n-- List of Animals --\n");
+
+        for(int x = 0; x < animalList.size(); x++){
+
+            Animal animal = animalList.get(x);
+
+            System.out.println((x + 1) + ")\t" + animal.getName() + "\t" + animal.getSpecies());
+
+        }
+
+    }
+
+    public void displayAnimalDetails(Animal animal) {
+
+        System.out.println("Name: \n" + animal.getName());
+
+        System.out.println("Species: \n" + animal.getSpecies());
+
+        System.out.println("Breed: \n" + animal.getBreed());
+
+        System.out.println("Description: \n" + animal.getDescription());
+
+    }
+
+    public boolean deleteOrNot(String answer){
+
+        String userInput = waitForString(answer, false);
+
+        if(userInput.toLowerCase().equals("yes") || userInput.toLowerCase().equals("y")){
+
+            return true;
+
+        }else if(userInput.toLowerCase().equals("no") || userInput.toLowerCase().equals("n")) {
+
+            return false;
+
+        }else{
+
+            System.out.println("Please enter a yes or a no (or y / n).");
+
+            return deleteOrNot(answer);
+
+        }
+
+
+    }
+
+    public void editAnimal(Animal animal){
+
+        String input = "";
+
+        input = waitForString(String.format("Name [%s]: ", animal.getName()), false);
+
+        if(!input.isEmpty()){
+            animal.setName(input);
+        }
+
+        input = waitForString(String.format("Species [%s]: ", animal.getSpecies()), false);
+
+        if(!input.isEmpty()){
+            animal.setSpecies(input);
+        }
+
+        input = waitForString(String.format("Breed [%s]: ", animal.getBreed()), false);
+
+        if(!input.isEmpty()){
+            animal.setBreed(input);
+        }
+
+        input = waitForString(String.format("Description [%s]: ", animal.getDescription()), false);
+
+        if(!input.isEmpty()){
+            animal.setDescription(input);
+        }
+
+
+
+
+
+    }
+
+
+   // public String sumOfNumbersFromSystemIn() {
+    //    return null;
+   // }
+
+    public void sayHiChris() {
+        System.out.println("Hi Chris");
+    }
+
+
+
 }
