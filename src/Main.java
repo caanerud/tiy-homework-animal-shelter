@@ -6,14 +6,10 @@ import java.util.Scanner;
  */
 public class Main {
 
+
     private static ArrayList<Animal> animalList = new ArrayList<>();
 
-
-
-    public static void main(String[] args) {
-
-
-
+    public static void main(String[] args) throws NullPointerException{
 
         Scanner scanner = new Scanner(System.in);
 
@@ -24,9 +20,11 @@ public class Main {
         MenuService menuService = new MenuService(scanner);
 
 
+
+
         while (true) {
 
-            int input = menuService.promptForMainMenuSelection();
+            int input = menuService.promptForMainMenu();
 
 
             if (input == menuService.LIST_ANIMALS) {
@@ -112,6 +110,8 @@ public class Main {
 
         }
 
+
+
     }
 
     private static void listOfAnimals(){
@@ -123,6 +123,8 @@ public class Main {
         animalList.add(new Animal("Julius", "dog", "beagle", "one leg is a bit shorter than the others"));
         animalList.add(new Animal("Vlad", "cat", "Maine coon", "long, gray hair and chubby face"));
 
-
     }
+
+
+
 }

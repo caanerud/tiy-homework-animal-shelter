@@ -17,23 +17,6 @@ Description
  */
 public class Animal {
 
-   /* public ArrayList<String> getAnimalName() {
-        ArrayList<String> animalName = new ArrayList<>();
-
-        // Add names to the list using the add() method
-        animalName.add("Barnabe");
-        animalName.add("Prince");
-        animalName.add("Walleye");
-        animalName.add("Slick Willie");
-
-        // Read the item at index 0 of the ArrayList using the get() method
-        String name = animalName.get(0);
-        System.out.println(name);
-        return animalName;
-
- }  */
-
-
     private String name;
     private String species;
     private String breed;
@@ -45,6 +28,10 @@ public class Animal {
         this.species = species;
         this.breed = breed;
         this.description = description;
+
+    }
+
+    public Animal() {
 
     }
 
