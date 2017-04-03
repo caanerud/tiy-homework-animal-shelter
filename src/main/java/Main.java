@@ -1,5 +1,7 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.sql.*;
 
 /**
  * Created by chrisaanerud on 3/20/17.
@@ -9,15 +11,27 @@ public class Main {
 
     private static ArrayList<Animal> animalList = new ArrayList<>();
 
-    public static void main(String[] args) throws NullPointerException{
+    public static void main(String[] args) throws java.sql.SQLException, ClassNotFoundException {
+
+        Class.forName("org.postgresql.Driver");
+        String jdbcUrl = "jdbc:postgresql://localhost/animals";
+        AnimalRepository repository = new AnimalRepository(jdbcUrl);
+        MenuService service = new MenuService(repository);
+
+
+
+
 
         Scanner scanner = new Scanner(System.in);
 
         scanner.useDelimiter("[\n]");
 
+
         listOfAnimals();
 
         MenuService menuService = new MenuService(scanner);
+
+
 
 
 

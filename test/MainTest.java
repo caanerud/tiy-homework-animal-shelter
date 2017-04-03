@@ -8,6 +8,7 @@ import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -58,7 +59,7 @@ public class MainTest {
 
     @Test
 
-    public void userEntersAndExitsProgram() throws IOException {
+    public void userEntersAndExitsProgram() throws IOException, SQLException, ClassNotFoundException {
 
         String[] args = null;
         systemInMock.provideLines("6","n");
@@ -80,7 +81,7 @@ public class MainTest {
 
     @Test
 
-    public void ExitProgram() throws IOException {
+    public void ExitProgram() throws IOException, SQLException, ClassNotFoundException {
 
         String[] args = null;
         systemInMock.provideLines("6");

@@ -17,6 +17,10 @@ public class MenuService {
         this.scanner = scanner.useDelimiter("\n");
     }
 
+    public MenuService(AnimalRepository repository) {
+
+    }
+
     public int promptForMainMenu() {
 
 
