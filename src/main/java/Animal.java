@@ -1,7 +1,3 @@
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
-
-import java.util.ArrayList;
-
 /**
  * Created by chrisaanerud on 3/20/17.
  */
@@ -31,7 +27,7 @@ public class Animal {
 
     }
 
-    public Animal() {
+    public Animal(int animalid, String name, String species, String breed, String description) {
 
     }
 

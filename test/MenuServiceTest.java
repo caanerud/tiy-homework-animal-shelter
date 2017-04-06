@@ -4,8 +4,8 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
+import javax.swing.*;
 import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -39,7 +39,7 @@ public class MenuServiceTest {
     MenuService menuService;
 
     @Before
-    public void before() {
+    public void before(UIDefaults result) {
 //
 //        this.outputStream = new ByteArrayOutputStream();
 //        PrintStream printStream = new PrintStream(this.outputStream);
@@ -51,10 +51,10 @@ public class MenuServiceTest {
 
 
         animals = new ArrayList<>();
-        animals.add(new Animal());
-        animals.add(new Animal()
+        animals.add(new Animal(result.getInt("animalid"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description")));
+        animals.add(new Animal(result.getInt("animalid"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description"))
         );
-        animals.add(new Animal());
+        animals.add(new Animal(result.getInt("animalid"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description")));
     }
 
     @Test

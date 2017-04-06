@@ -1,4 +1,3 @@
-import com.sun.org.apache.xpath.internal.Arg;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -6,6 +5,7 @@ import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
+import javax.swing.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,6 +16,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
 
+
 /**
  * Created by chrisaanerud on 4/2/17.
  */
@@ -25,6 +26,7 @@ public class MainTest {
     ByteArrayOutputStream outputStream;
     ArrayList<Animal> animals;
     Scanner scanner;
+    private UIDefaults result;
 
 
     @Before
@@ -40,10 +42,10 @@ public class MainTest {
 
 
         animals = new ArrayList<>();
-        animals.add(new Animal());
-        animals.add(new Animal()
+        animals.add(new Animal(result.getInt("animalid"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description")));
+        animals.add(new Animal(result.getInt("animalid"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description"))
         );
-        animals.add(new Animal());
+        animals.add(new Animal(result.getInt("animalid"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description")));
     }
 
     @Rule
@@ -73,7 +75,7 @@ public class MainTest {
 
         systemInMock.provideLines("1");
 
-       Animal animal = new Animal();
+       Animal animal = new Animal(result.getInt("animalid"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description"));
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString(""));
