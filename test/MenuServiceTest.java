@@ -33,6 +33,7 @@ import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emp
 public class MenuServiceTest {
 
 
+
     ByteArrayOutputStream outputStream;
     ArrayList<Animal> animals;
     Scanner scanner;
@@ -51,10 +52,45 @@ public class MenuServiceTest {
 
 
         animals = new ArrayList<>();
-        animals.add(new Animal(result.getInt("animalid"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description")));
-        animals.add(new Animal(result.getInt("animalid"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description"))
+        animals.add(new Animal(result.getInt("animalId"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description")));
+        animals.add(new Animal(result.getInt("animalId"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description"))
         );
-        animals.add(new Animal(result.getInt("animalid"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description")));
+        animals.add(new Animal(result.getInt("animalId"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description")));
+    }
+
+    @Test
+    public void promptForMainMenu() throws Exception {
+
+    }
+
+    @Test
+    public void waitForInt() throws Exception {
+
+    }
+
+    @Test
+    public void waitForString() throws Exception {
+
+    }
+
+    @Test
+    public void displayListOfAnimals() throws Exception {
+
+    }
+
+    @Test
+    public void displayAnimalDetails() throws Exception {
+
+    }
+
+    @Test
+    public void deleteOrNot() throws Exception {
+
+    }
+
+    @Test
+    public void editAnimal() throws Exception {
+
     }
 
     @Test

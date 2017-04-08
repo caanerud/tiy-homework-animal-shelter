@@ -17,6 +17,7 @@ public class Animal {
     private String species;
     private String breed;
     private String description;
+    private int animalId;
 
     public Animal(String name, String species, String breed, String description) {
 
@@ -27,8 +28,13 @@ public class Animal {
 
     }
 
-    public Animal(int animalid, String name, String species, String breed, String description) {
+    public Animal(int animalId, String name, String species, String breed, String description) {
 
+        this.animalId = animalId;
+        this.name = name;
+        this.species = species;
+        this.breed = breed;
+        this.description = description;
     }
 
     public String getName() {
@@ -76,4 +82,7 @@ public class Animal {
     }
 
 
+    public int getAnimalId() {
+        return animalId;
+    }
 }

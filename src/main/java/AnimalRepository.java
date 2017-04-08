@@ -22,7 +22,7 @@ public class AnimalRepository {
 
         Statement statement = conn.createStatement();
 
-        ResultSet result = statement.executeQuery("SELECT * FROM LIST_ANIMALS ORDER BY id ASC ");
+        ResultSet result = statement.executeQuery("SELECT * FROM animals ORDER BY id ASC ");
         while(result.next()){
             Animal animal = new Animal(
                     result.getInt("id"),
