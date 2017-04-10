@@ -38,15 +38,17 @@ public class AnimalRepository {
 
     }
 
-    public int getAnimalTotal() {
-
-        return getAnimalTotal();
+    public int getAnimalTotal() throws Exception {
+        Statement statement = conn.createStatement();
+        ResultSet result = statement.executeQuery("SELECT COUNT (*) FROM animals");
+        result.next();
+        return result.getInt("count");
     }
 
-    public void createAnimal(Animal animal) throws SQLException {
+    public int createAnimal(Animal animal) throws SQLException {
 
-        PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO animal(name, species, breed, description " +
-                "VALUES(?, ?, ? ,?) ");
+        PreparedStatement preparedStatement = conn.prepareStatement(
+                "INSERT INTO animals(name, species, breed, description) VALUES(?, ?, ? ,?) RETURNING id ");
 
 
 
@@ -56,7 +58,9 @@ public class AnimalRepository {
         preparedStatement.setString(4, animal.getDescription());
 
 
-        preparedStatement.execute();
+        ResultSet result = preparedStatement.executeQuery();
+        result.next();
+        return result.getInt(1);
 
 
     }
@@ -84,8 +88,19 @@ public class AnimalRepository {
 
     }
 
-    public void saveAnimalEdit(Animal animal){
+    public void updateAnimal(Animal animal) throws SQLException{
 
+        PreparedStatement preparedStatement = conn.prepareStatement(
+                "UPDATE animals SET name = ?, species = ?, breed = ?, description = ? WHERE id = ?");
+
+        preparedStatement.setString(1, animal.getName());
+        preparedStatement.setString(2, animal.getSpecies());
+        preparedStatement.setString(3, animal.getBreed());
+        preparedStatement.setString(4, animal.getDescription());
+        preparedStatement.setInt(5, animal.getAnimalId());
+
+
+        preparedStatement.execute();
 
     }
 

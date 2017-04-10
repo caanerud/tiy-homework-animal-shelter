@@ -15,6 +15,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
 
+
 /**
  * Created by chrisaanerud on 3/22/17.
  */
@@ -40,13 +41,13 @@ public class MenuServiceTest {
     MenuService menuService;
 
     @Before
-    public void before(UIDefaults result) {
+    public void animalTesting(UIDefaults result) {
 //
 //        this.outputStream = new ByteArrayOutputStream();
 //        PrintStream printStream = new PrintStream(this.outputStream);
 //        System.setOut(printStream);
 
-        scanner = new Scanner(System.in);
+ //       scanner = new Scanner(System.in);
         menuService = new MenuService(scanner);
 
 
@@ -60,7 +61,12 @@ public class MenuServiceTest {
 
     @Test
     public void promptForMainMenu() throws Exception {
+        // Arrange
+        systemInMock.provideLines("1");
+        assertThat(menuService.promptForMainMenu(), equalTo(1));
+        // Act
 
+        // Assert
     }
 
     @Test

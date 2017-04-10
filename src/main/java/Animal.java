@@ -85,4 +85,8 @@ public class Animal {
     public int getAnimalId() {
         return animalId;
     }
+
+    public void setAnimalId(int id) {
+        this.animalId = animalId;
+    }
 }
