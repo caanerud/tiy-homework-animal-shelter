@@ -86,7 +86,7 @@ public class Animal {
         return animalId;
     }
 
-    public void setAnimalId(int id) {
+    public void setAnimalId(int animalId) {
         this.animalId = animalId;
     }
 }

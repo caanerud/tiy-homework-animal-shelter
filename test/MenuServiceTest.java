@@ -6,10 +6,12 @@ import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import javax.swing.*;
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import static java.awt.SystemColor.menu;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,14 +42,14 @@ public class MenuServiceTest {
     Scanner scanner;
     MenuService menuService;
 
-    @Before
+
     public void animalTesting(UIDefaults result) {
 //
-//        this.outputStream = new ByteArrayOutputStream();
-//        PrintStream printStream = new PrintStream(this.outputStream);
-//        System.setOut(printStream);
+        this.outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(this.outputStream);
+        System.setOut(printStream);
 
- //       scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         menuService = new MenuService(scanner);
 
 
@@ -62,25 +64,59 @@ public class MenuServiceTest {
     @Test
     public void promptForMainMenu() throws Exception {
         // Arrange
-        systemInMock.provideLines("1");
-        assertThat(menuService.promptForMainMenu(), equalTo(1));
+
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
+
         // Act
+        int selection = menu.promptForMainMenu();
 
         // Assert
+        assertThat(selection, equalTo(1));
     }
 
     @Test
     public void waitForInt() throws Exception {
+
+        Scanner scanner = new Scanner("2");
+        MenuService menu = new MenuService(scanner);
+
+        // Act
+        int selection = menu.waitForInt("2");
+
+        // Assert
+        assertThat(selection, equalTo(2));
 
     }
 
     @Test
     public void waitForString() throws Exception {
 
+        Scanner scanner = new Scanner("face");
+        MenuService menu = new MenuService(scanner);
+
+        // Act
+        String selection = menu.waitForString("face", true);
+
+        // Assert
+        assertThat(selection, equalTo("face"));
+
     }
 
     @Test
     public void displayListOfAnimals() throws Exception {
+
+
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
+        ArrayList<Animal> animalList = new ArrayList<>();
+
+        // Act
+        menu.displayListOfAnimals(animalList);
+
+        // Assert
+        assertThat(systemOutRule.getLog(), containsString("Animals"));
+
 
     }
 
@@ -103,11 +139,14 @@ public class MenuServiceTest {
 
     public void when1OnMainMenuThen1() {
 
-       systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
 
-        int select = menuService.promptForMainMenu();
+        // Act
+        int selection = menu.promptForMainMenu();
 
-        assertThat(select, equalTo(1));
+        // Assert
+        assertThat(selection, equalTo(1));
 
     }
 
@@ -117,9 +156,11 @@ public class MenuServiceTest {
 
     public void when2OnMainMenuThen2() {
         // Arrange
-       systemInMock.provideLines("2");
+        Scanner scanner = new Scanner("2");
+        MenuService menu = new MenuService(scanner);
+
         // Act
-        int selection = menuService.promptForMainMenu();
+        int selection = menu.promptForMainMenu();
 
         // Assert
         assertThat(selection, equalTo(2));
@@ -130,8 +171,9 @@ public class MenuServiceTest {
 
     public void when3OnMainMenuThen3() {
 
-        systemInMock.provideLines("3");
-        int selection = menuService.promptForMainMenu();
+        Scanner scanner = new Scanner("3");
+        MenuService menu = new MenuService(scanner);
+        int selection = menu.promptForMainMenu();
 
         // Assert
         assertThat(selection, equalTo(3));
@@ -142,8 +184,9 @@ public class MenuServiceTest {
 
     public void when4OnMainMenuThen4() {
         // Act
-        systemInMock.provideLines("4");
-        int selection = menuService.promptForMainMenu();
+        Scanner scanner = new Scanner("4");
+        MenuService menu = new MenuService(scanner);
+        int selection = menu.promptForMainMenu();
 
         // Assert
         assertThat(selection, equalTo(4));
@@ -154,9 +197,10 @@ public class MenuServiceTest {
 
     public void when5OnMainMenuThen5() {
         // Arrange
-        systemInMock.provideLines("5");
+        Scanner scanner = new Scanner("5");
+        MenuService menu = new MenuService(scanner);
         // Act
-        int selection = menuService.promptForMainMenu();
+        int selection = menu.promptForMainMenu();
 
         // Assert
         assertThat(selection, equalTo(5));
@@ -166,9 +210,10 @@ public class MenuServiceTest {
 
     public void when6OnMainMenuThen6() {
         // Arrange
-        systemInMock.provideLines("6");
+        Scanner scanner = new Scanner("6");
+        MenuService menu = new MenuService(scanner);
         // Act
-        int selection = menuService.promptForMainMenu();
+        int selection = menu.promptForMainMenu();
 
         // Assert
         assertThat(selection, equalTo(6));
@@ -178,11 +223,12 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenListAnimalsPrinted() {
         // Arrange
-       systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
 
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("1) List animals"));
@@ -192,10 +238,11 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenCreateAnAnimalPrints() {
         // Arrange
-        systemInMock.provideLines("2");
+        Scanner scanner = new Scanner("2");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("2) Create an animal"));
@@ -205,10 +252,11 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenViewAnAnimalDetailsPrints() {
         // Arrange
-       systemInMock.provideLines("3");
+        Scanner scanner = new Scanner("3");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("3) View animal details"));
@@ -218,10 +266,11 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenEditAnAnimalPrints() {
         // Arrange
-        systemInMock.provideLines("4");
+        Scanner scanner = new Scanner("4");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("4) Edit an animal"));
@@ -232,10 +281,11 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenDeleteAnAnimalPrints() {
         // Arrange
-       systemInMock.provideLines("5");
+        Scanner scanner = new Scanner("5");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("5) Delete an animal"));
@@ -246,10 +296,11 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenQuitPrints() {
         // Arrange
-       systemInMock.provideLines("6");
+        Scanner scanner = new Scanner("6");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("6) Quit"));
@@ -260,11 +311,12 @@ public class MenuServiceTest {
 
     public void whenStringInputToMainMenuThenRePrompt() {
         // Arrange
-        systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
 
 
         // Act
-        int input = menuService.promptForMainMenu();
+        int input = menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("1"));
@@ -276,10 +328,11 @@ public class MenuServiceTest {
 
     public void whenOnMainMenuThenPromptForSelection() {
         // Arrange
-       systemInMock.provideLines("2");
+        Scanner scanner = new Scanner("2");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("2"));
@@ -289,10 +342,11 @@ public class MenuServiceTest {
 
     public void whenUserInputIsWrongPrintMessage() {
 
-        systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
         String userInput = "";
         boolean needInput = false;
-        String selection = menuService.waitForString("userInput", false);
+        String selection = menu.waitForString("userInput", false);
 
         // Assert
         assertThat(selection, equalTo("1"));
@@ -301,8 +355,9 @@ public class MenuServiceTest {
     @Test
 
     public void loginPromptAskForOption() {
-        systemInMock.provideLines("1");
-        menuService.promptForMainMenu();
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
+        menu.promptForMainMenu();
         assertThat(systemOutRule.getLog(),containsString("option"));
     }
 
@@ -342,7 +397,7 @@ public class MenuServiceTest {
     @Test
 
 
-    public void whenMainMenuPrintsThenItDisplaysListOfAnimals() {
+    public void whenMainMenuPrintsThenItDisplaysListOfAnimals() throws Exception {
         // Arrange
         systemInMock.provideLines("1");
 
@@ -356,7 +411,7 @@ public class MenuServiceTest {
     @Test
 
 
-    public void whenMainMenuPrintsThenItDisplaysAnimalDetails() {
+    public void whenMainMenuPrintsThenItDisplaysAnimalDetails() throws NullPointerException {
         // Arrange
         systemInMock.provideLines("1");
 
@@ -385,10 +440,11 @@ public class MenuServiceTest {
 
     public void whenEditingAnimalStringInputIsEmpty() {
         // Arrange
-        systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.displayAnimalDetails(animals.get(1));
+        menu.displayAnimalDetails(animals.get(1));
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString(""));
