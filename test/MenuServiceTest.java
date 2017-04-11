@@ -4,16 +4,19 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
+import javax.swing.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import static java.awt.SystemColor.menu;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
+
 
 /**
  * Created by chrisaanerud on 3/22/17.
@@ -33,39 +36,165 @@ import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emp
 public class MenuServiceTest {
 
 
+
     ByteArrayOutputStream outputStream;
-    ArrayList<Animal> animals;
-    Scanner scanner;
-    MenuService menuService;
+    ArrayList<Animal> animals (){
+        ArrayList<Animal> list = new ArrayList<Animal>();
+        list.add(animal1());
+        list.add(animal2());
+        return list;
+    }
+    Animal animal1(){
+        return new Animal("name1", "species1", "breed1", "description1");
+    }
 
-    @Before
-    public void before() {
+    Animal animal2(){
+        return new Animal(2,"name2", "species2", "breed2", "description2");
+    }
+
+
+
+
+//    public void animalTesting(UIDefaults result) {
 //
-//        this.outputStream = new ByteArrayOutputStream();
-//        PrintStream printStream = new PrintStream(this.outputStream);
-//        System.setOut(printStream);
+//        animals = new ArrayList<>();
+//        animals.add(new Animal(result.getInt("animalId"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description")));
+//        animals.add(new Animal(result.getInt("animalId"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description"))
+//        );
+//        animals.add(new Animal(result.getInt("animalId"), result.getString("name"), result.getString("species"), result.getString("breed"), result.getString("description")));
+//    }
 
-        scanner = new Scanner(System.in);
-        menuService = new MenuService(scanner);
+
+    public void before(){
+        this.outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(this.outputStream);
+        System.setOut(printStream);
+
+    }
+
+    @Test
+    public void promptForMainMenu() throws Exception {
+        // Arrange
+
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
+
+        // Act
+        int selection = menu.promptForMainMenu();
+
+        // Assert
+        assertThat(selection, equalTo(1));
+    }
+
+    @Test
+    public void waitForInt() throws Exception {
+
+        Scanner scanner = new Scanner("2");
+        MenuService menu = new MenuService(scanner);
+
+        // Act
+        int selection = menu.waitForInt("2");
+
+        // Assert
+        assertThat(selection, equalTo(2));
+
+    }
+
+    @Test
+    public void waitForString() throws Exception {
+
+        Scanner scanner = new Scanner("face");
+        MenuService menu = new MenuService(scanner);
+
+        // Act
+        String selection = menu.waitForString("face", true);
+
+        // Assert
+        assertThat(selection, equalTo("face"));
+
+    }
+
+    @Test
+    public void displayListOfAnimals() throws Exception {
+
+
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
+        ArrayList<Animal> animalList = new ArrayList<>();
+
+        // Act
+        menu.displayListOfAnimals(animalList);
+
+        // Assert
+        assertThat(systemOutRule.getLog(), containsString("Animals"));
+
+
+    }
+
+    @Test
+    public void displayAnimalDetails() throws Exception {
+        Scanner scanner = new Scanner("Species:");
+        scanner.useDelimiter("[\n]");
+        MenuService menu = new MenuService(scanner);
+
+        ArrayList<Animal> animals = new ArrayList<>();
+
+        // Act
+        Animal animal = new Animal("fred", "bob", "sally", "goober" );
+        menu.displayAnimalDetails(animal);
+
+        // Assert
+
+
+        assertThat(systemOutRule.getLog(),containsString("Species:"));
+    }
+
+    @Test
+    public void deleteOrNot() throws Exception {
+        Scanner scanner = new Scanner("y");
+        scanner.useDelimiter("[\n]");
+        MenuService menu = new MenuService(scanner);
 
 
 
-        animals = new ArrayList<>();
-        animals.add(new Animal());
-        animals.add(new Animal()
-        );
-        animals.add(new Animal());
+        // Act
+        menu.deleteOrNot("y");
+
+        // Assert
+
+
+        assertThat(systemOutRule.getLog(),containsString("y"));
+    }
+
+    @Test
+    public void editAnimal() throws Exception {
+        Scanner scanner = new Scanner("a\n" + "b\n" + "c\n" + "d\n");
+        scanner.useDelimiter("[\n]");
+        MenuService menu = new MenuService(scanner);
+
+        Animal animal = new Animal("fred", "bob", "sally", "goober" );
+
+        // Act
+        menu.editAnimal(animal);
+
+        // Assert
+
+
+        assertThat(systemOutRule.getLog(),containsString(""));
     }
 
     @Test
 
     public void when1OnMainMenuThen1() {
 
-       systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
 
-        int select = menuService.promptForMainMenu();
+        // Act
+        int selection = menu.promptForMainMenu();
 
-        assertThat(select, equalTo(1));
+        // Assert
+        assertThat(selection, equalTo(1));
 
     }
 
@@ -75,9 +204,11 @@ public class MenuServiceTest {
 
     public void when2OnMainMenuThen2() {
         // Arrange
-       systemInMock.provideLines("2");
+        Scanner scanner = new Scanner("2");
+        MenuService menu = new MenuService(scanner);
+
         // Act
-        int selection = menuService.promptForMainMenu();
+        int selection = menu.promptForMainMenu();
 
         // Assert
         assertThat(selection, equalTo(2));
@@ -88,8 +219,9 @@ public class MenuServiceTest {
 
     public void when3OnMainMenuThen3() {
 
-        systemInMock.provideLines("3");
-        int selection = menuService.promptForMainMenu();
+        Scanner scanner = new Scanner("3");
+        MenuService menu = new MenuService(scanner);
+        int selection = menu.promptForMainMenu();
 
         // Assert
         assertThat(selection, equalTo(3));
@@ -100,8 +232,9 @@ public class MenuServiceTest {
 
     public void when4OnMainMenuThen4() {
         // Act
-        systemInMock.provideLines("4");
-        int selection = menuService.promptForMainMenu();
+        Scanner scanner = new Scanner("4");
+        MenuService menu = new MenuService(scanner);
+        int selection = menu.promptForMainMenu();
 
         // Assert
         assertThat(selection, equalTo(4));
@@ -112,9 +245,10 @@ public class MenuServiceTest {
 
     public void when5OnMainMenuThen5() {
         // Arrange
-        systemInMock.provideLines("5");
+        Scanner scanner = new Scanner("5");
+        MenuService menu = new MenuService(scanner);
         // Act
-        int selection = menuService.promptForMainMenu();
+        int selection = menu.promptForMainMenu();
 
         // Assert
         assertThat(selection, equalTo(5));
@@ -124,9 +258,10 @@ public class MenuServiceTest {
 
     public void when6OnMainMenuThen6() {
         // Arrange
-        systemInMock.provideLines("6");
+        Scanner scanner = new Scanner("6");
+        MenuService menu = new MenuService(scanner);
         // Act
-        int selection = menuService.promptForMainMenu();
+        int selection = menu.promptForMainMenu();
 
         // Assert
         assertThat(selection, equalTo(6));
@@ -136,11 +271,12 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenListAnimalsPrinted() {
         // Arrange
-       systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
 
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("1) List animals"));
@@ -150,10 +286,11 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenCreateAnAnimalPrints() {
         // Arrange
-        systemInMock.provideLines("2");
+        Scanner scanner = new Scanner("2");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("2) Create an animal"));
@@ -163,10 +300,11 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenViewAnAnimalDetailsPrints() {
         // Arrange
-       systemInMock.provideLines("3");
+        Scanner scanner = new Scanner("3");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("3) View animal details"));
@@ -176,10 +314,11 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenEditAnAnimalPrints() {
         // Arrange
-        systemInMock.provideLines("4");
+        Scanner scanner = new Scanner("4");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("4) Edit an animal"));
@@ -190,10 +329,11 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenDeleteAnAnimalPrints() {
         // Arrange
-       systemInMock.provideLines("5");
+        Scanner scanner = new Scanner("5");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("5) Delete an animal"));
@@ -204,10 +344,11 @@ public class MenuServiceTest {
 
     public void whenMainMenuThenQuitPrints() {
         // Arrange
-       systemInMock.provideLines("6");
+        Scanner scanner = new Scanner("6");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("6) Quit"));
@@ -218,11 +359,12 @@ public class MenuServiceTest {
 
     public void whenStringInputToMainMenuThenRePrompt() {
         // Arrange
-        systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
 
 
         // Act
-        int input = menuService.promptForMainMenu();
+        int input = menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("1"));
@@ -234,10 +376,11 @@ public class MenuServiceTest {
 
     public void whenOnMainMenuThenPromptForSelection() {
         // Arrange
-       systemInMock.provideLines("2");
+        Scanner scanner = new Scanner("2");
+        MenuService menu = new MenuService(scanner);
 
         // Act
-        menuService.promptForMainMenu();
+        menu.promptForMainMenu();
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("2"));
@@ -247,10 +390,11 @@ public class MenuServiceTest {
 
     public void whenUserInputIsWrongPrintMessage() {
 
-        systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
         String userInput = "";
         boolean needInput = false;
-        String selection = menuService.waitForString("userInput", false);
+        String selection = menu.waitForString("userInput", false);
 
         // Assert
         assertThat(selection, equalTo("1"));
@@ -259,32 +403,55 @@ public class MenuServiceTest {
     @Test
 
     public void loginPromptAskForOption() {
-        systemInMock.provideLines("1");
-        menuService.promptForMainMenu();
+        Scanner scanner = new Scanner("1");
+        MenuService menu = new MenuService(scanner);
+        menu.promptForMainMenu();
         assertThat(systemOutRule.getLog(),containsString("option"));
     }
 
     @Test
 
     public void loginPromptChecksInputStringToEnsureValidNumberIsEntered() {
-        systemInMock.provideLines("bird","2");
-        menuService.promptForMainMenu();
+        Scanner scanner = new Scanner("cat\ndog\n4");
+        scanner.useDelimiter("[\n]");
+        MenuService menu = new MenuService(scanner);
+
+        menu.promptForMainMenu();
         assertThat(systemOutRule.getLog(),containsString("is not a valid number. Please try again."));
     }
 
     @Test
 
     public void mainMenuPromptShouldAlwaysIncludeListAnimals() {
-        systemInMock.provideLines("4","Y");
-        menuService.promptForMainMenu();
-        assertThat(systemOutRule.getLog(),containsString("List animals"));
+        Scanner scanner = new Scanner("-- List of Animals --");
+        scanner.useDelimiter("[\n]");
+        MenuService menu = new MenuService(scanner);
+        ArrayList<Animal> animals = new ArrayList<>();
+
+        // Act
+        menu.displayListOfAnimals(animals);
+
+        // Assert
+
+
+        assertThat(systemOutRule.getLog(),containsString("\n-- List of Animals --\n\n"));
     }
 
     @Test
 
     public void userSelectPromptWillNotAcceptNonIntegerValueAndReprompts(){
         systemInMock.provideLines("phone");
-        menuService.waitForString("This must be filled in with the correct information.", true);
+
+/*
+The TextFromStandardInputStream rule replaces System.in with another InputStream, which provides an arbitrary text. The original
+System.in is restored after the test.
+public void MyTest { @Rule public final TextFromStandardInputStream systemInMock = emptyStandardInputStream(); @Test public void
+readTextFromStandardInputStream() { systemInMock.provideLines("foo", "bar"); Scanner scanner = new Scanner(System.in); scanner.nextLine();
+ assertEquals("bar", scanner.nextLine()); } }
+ */
+        Scanner scanner = new Scanner(System.in);
+        MenuService menuService = new MenuService(scanner);
+      menuService.waitForString("This must be filled in with the correct information.", true);
         assertThat(systemOutRule.getLog(),containsString("This must be filled in with the correct information."));
 
     }
@@ -292,20 +459,24 @@ public class MenuServiceTest {
     @Test
 
     public void listAnimalDisplaysAnimalInformationWithStringDefault(){
-        menuService.displayListOfAnimals(animals);
-        assertThat(systemOutRule.getLog(),containsString("null"));
+        Scanner scanner = new Scanner(System.in);
+        MenuService menuService = new MenuService(scanner);
+       menuService.displayListOfAnimals(animals());
+        assertThat(systemOutRule.getLog(),containsString("-- List of Animals --"));
 
     }
 
     @Test
 
 
-    public void whenMainMenuPrintsThenItDisplaysListOfAnimals() {
+    public void whenMainMenuPrintsThenItDisplaysListOfAnimals() throws Exception {
         // Arrange
         systemInMock.provideLines("1");
+        Scanner scanner = new Scanner(System.in);
+        MenuService menuService = new MenuService(scanner);
 
         // Act
-        menuService.displayListOfAnimals(animals);
+        menuService.displayListOfAnimals(animals());
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString("-- List of Animals --"));
@@ -314,15 +485,22 @@ public class MenuServiceTest {
     @Test
 
 
-    public void whenMainMenuPrintsThenItDisplaysAnimalDetails() {
+    public void whenMainMenuPrintsThenItDisplaysAnimalDetails() throws NullPointerException {
         // Arrange
-        systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("Breed:");
+        scanner.useDelimiter("[\n]");
+        MenuService menu = new MenuService(scanner);
+
+        ArrayList<Animal> animals = new ArrayList<>();
 
         // Act
-        menuService.displayAnimalDetails(animals.get(1));
+        Animal animal = new Animal("fred", "bob", "sally", "goober" );
+        menu.displayAnimalDetails(animal);
 
         // Assert
-        assertThat(systemOutRule.getLog(), containsString("Name"));
+
+
+        assertThat(systemOutRule.getLog(),containsString("Breed:"));
     }
 
     @Test
@@ -335,6 +513,8 @@ public class MenuServiceTest {
 
 
         // Assert
+        Scanner scanner = new Scanner(System.in);
+        MenuService menuService = new MenuService(scanner);
         assertThat(menuService.deleteOrNot("yes"), equalTo(true));
     }
 
@@ -343,10 +523,12 @@ public class MenuServiceTest {
 
     public void whenEditingAnimalStringInputIsEmpty() {
         // Arrange
-        systemInMock.provideLines("1");
+        Scanner scanner = new Scanner("");
+        MenuService menu = new MenuService(scanner);
+        Animal animal = new Animal(1, "a", "b", "c", "d");
 
         // Act
-        menuService.displayAnimalDetails(animals.get(1));
+        menu.displayAnimalDetails(animal);
 
         // Assert
         assertThat(systemOutRule.getLog(), containsString(""));
@@ -366,7 +548,7 @@ public class MenuServiceTest {
         Scanner scanner = new Scanner(System.in);
         MenuService menuService = new MenuService(scanner);
         systemInMock.provideLines("5", "6");
-    //    assertThat(menuService.sumOfNumbersFromSystemIn(),equalTo(null));
+        assertThat(menuService.sumOfNumbersFromSystemIn(),equalTo(null));
 
 
     }

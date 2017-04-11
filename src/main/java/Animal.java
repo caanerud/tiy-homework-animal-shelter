@@ -1,7 +1,3 @@
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
-
-import java.util.ArrayList;
-
 /**
  * Created by chrisaanerud on 3/20/17.
  */
@@ -21,9 +17,10 @@ public class Animal {
     private String species;
     private String breed;
     private String description;
+    private int animalId;
 
     public Animal(String name, String species, String breed, String description) {
-
+        this.animalId = -1;
         this.name = name;
         this.species = species;
         this.breed = breed;
@@ -31,8 +28,13 @@ public class Animal {
 
     }
 
-    public Animal() {
+    public Animal(int animalId, String name, String species, String breed, String description) {
 
+        this.animalId = animalId;
+        this.name = name;
+        this.species = species;
+        this.breed = breed;
+        this.description = description;
     }
 
     public String getName() {
@@ -80,4 +82,11 @@ public class Animal {
     }
 
 
+    public int getAnimalId() {
+        return animalId;
+    }
+
+    public void setAnimalId(int animalId) {
+        this.animalId = animalId;
+    }
 }

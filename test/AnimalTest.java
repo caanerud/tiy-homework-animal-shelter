@@ -4,95 +4,121 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 /**
- * Created by chrisaanerud on 3/28/17.
+ * Created by chrisaanerud on 4/7/17.
  */
 public class AnimalTest {
 
 
+    Animal animal1(){
+        return new Animal("name1", "species1", "breed1", "description1");
+    }
+
+    Animal animal2(){
+        return new Animal(2,"name2", "species2", "breed2", "description2");
+    }
+
     @Test
+    public void getAnimalId() throws Exception {
+        assertThat(animal1().getAnimalId(), equalTo(-1));
+        assertThat(animal2().getAnimalId(), equalTo(2));
+    }
 
+    @Test
+    public void setAnimalId() throws Exception {
+        Animal pet = animal1();
+        assertThat(pet.getAnimalId(), equalTo(-1));
 
-    public void animalNameTestConstructor() {
-        String expected = "name";
-        String name = new String(expected);
-        assertThat(expected, equalTo("name"));
+        pet.setAnimalId(2);
 
+        assertThat(pet.getAnimalId(), equalTo(2));
+    }
+    @Test
+    public void constructor1(){
+
+        Animal pet = animal1();
+
+        assertThat(animal1().getName(), equalTo("name1"));
+        assertThat(animal1().getSpecies(), equalTo("species1"));
+        assertThat(animal1().getBreed(), equalTo("breed1"));
+        assertThat(animal1().getDescription(), equalTo("description1"));
+    }
+
+    @Test
+    public void constructor2(){
+
+        Animal pet = animal2();
+
+        assertThat(animal2().getAnimalId(), equalTo(2));
+        assertThat(animal2().getName(), equalTo("name2"));
+        assertThat(animal2().getSpecies(), equalTo("species2"));
+        assertThat(animal2().getBreed(), equalTo("breed2"));
+        assertThat(animal2().getDescription(), equalTo("description2"));
+    }
+
+    @Test
+    public void getName() throws Exception {
+
+       assertThat(animal1().getName(), equalTo("name1"));
+    }
+
+    @Test
+    public void setName() throws Exception {
+
+        Animal pet = animal1();
+
+        pet.setName("Fred");
+        
+        assertThat(pet.getName(), equalTo("Fred"));
 
     }
 
     @Test
+    public void getSpecies() throws Exception {
 
-
-    public void animalSpeciesTestConstructor() {
-        String expected = "species";
-        String species = new String(expected);
-        assertThat(expected, equalTo("species"));
-
-
+        assertThat(animal1().getSpecies(), equalTo("species1"));
     }
 
     @Test
+    public void setSpecies() throws Exception {
 
+        Animal pet = animal1();
 
-    public void animalBreedTestConstructor() {
-        String expected = "breed";
-        String breed = new String(expected);
-        assertThat(expected, equalTo("breed"));
+        pet.setSpecies("Fred");
 
-
-    }
-
-    @Test
-
-
-    public void animalDescriptionTestConstructor() {
-        String expected = "description";
-        String description = new String(expected);
-        assertThat(expected, equalTo("description"));
-
-
-    }
-
-    @Test
-
-    public void animalNameSettertoSetName(){
-       String expected = "setName";
-       String name = new String(expected);
-        assertThat(expected, equalTo("setName"));
-
+        assertThat(pet.getSpecies(), equalTo("Fred"));
 
     }
 
 
+
     @Test
+    public void getBreed() throws Exception {
+        assertThat(animal1().getBreed(), equalTo("breed1"));
+    }
 
-    public void animalSpeciesSettertoSetSpecies(){
-        String expected = "setSpecies";
-        String species = new String(expected);
-        assertThat(expected, equalTo("setSpecies"));
+    @Test
+    public void setBreed() throws Exception {
+        Animal pet = animal1();
 
+        pet.setBreed("Fred");
+
+        assertThat(pet.getBreed(), equalTo("Fred"));
 
     }
 
-
     @Test
-
-    public void animalBreedSettertoSetBreed(){
-        String expected = "setBreed";
-        String breed = new String(expected);
-        assertThat(expected, equalTo("setBreed"));
-
-
+    public void getDescription() throws Exception {
+        assertThat(animal1().getDescription(), equalTo("description1"));
     }
 
-
     @Test
+    public void setDescription() throws Exception {
 
-    public void animalDescriptionSettertoSetDescription(){
-        String expected = "setDescription";
-        String description = new String(expected);
-        assertThat(expected, equalTo("setDescription"));
+        Animal pet = animal1();
 
+        pet.setDescription("Fred");
+
+        assertThat(pet.getDescription(), equalTo("Fred"));
 
     }
 

@@ -1,0 +1,38 @@
+cat <<EOF | psql
+
+DROP DATABASE animals_$1;
+
+CREATE DATABASE animals_$1;
+
+\c animals_$1
+
+DROP TABLE animals;
+
+CREATE TABLE animals(
+  id          SERIAL       NOT NULL,
+  name        VARCHAR(255) NOT NULL,
+  species     VARCHAR(255) NOT NULL,
+  breed       VARCHAR(255) NOT NULL,
+  description VARCHAR(255) NOT NULL,
+
+  PRIMARY KEY(id)
+);
+
+/* Single Quotes work, Double Quotes don't */
+INSERT INTO animals (name, species, breed, description) VALUES ('Name1', 'Species1', 'Breed1', 'Description1');
+INSERT INTO animals (name, species, breed, description) VALUES ('Name2', 'Species2', 'Breed2', 'Description2');
+INSERT INTO animals (name, species, breed, description) VALUES ('Name3', 'Species3', 'Breed3', 'Description3');
+
+SELECT * FROM animals;
+
+UPDATE animals
+  SET name = 'Lassie', breed = 'Collie', species = 'C. Lupis', description = 'Loyal Companion'
+  WHERE id = 2;
+
+SELECT * FROM animals;
+
+SELECT * FROM animals WHERE name = 'Lassie';
+
+SELECT * FROM animals WHERE name NOT LIKE 'Name%';
+
+EOF
