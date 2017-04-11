@@ -17,10 +17,6 @@ public class MenuService {
         this.scanner = scanner.useDelimiter("\n");
     }
 
-    public MenuService(AnimalRepository repository) {
-
-    }
-
     public int promptForMainMenu() {
 
 
@@ -42,7 +38,7 @@ public class MenuService {
 
         if(!scanner.hasNextInt()){
 
-            String badInput = scanner.next();
+            String badInput = scanner.nextLine();
 
 
             System.out.printf("'%s' is not a valid number. Please try again.\n", badInput);
@@ -74,11 +70,6 @@ public class MenuService {
         }
 
 
-
-
-
-
-
     }
 
     public void displayListOfAnimals(ArrayList<Animal> animalList) {
@@ -89,7 +80,7 @@ public class MenuService {
 
             Animal animal = animalList.get(x);
 
-            System.out.println((x + 1) + ")\t" + animal.getName() + "\t" + animal.getSpecies());
+            System.out.println((animal.getAnimalId()) + ")\t" + animal.getName() + "\t" + animal.getSpecies());
 
         }
 
@@ -130,7 +121,7 @@ public class MenuService {
 
     }
 
-    public void editAnimal(Animal animal){
+    public Animal editAnimal(Animal animal){
 
         String input = "";
 
@@ -158,8 +149,7 @@ public class MenuService {
             animal.setDescription(input);
         }
 
-
-
+        return animal;
 
 
     }
@@ -174,5 +164,7 @@ public class MenuService {
     }
 
 
-
+    public String sumOfNumbersFromSystemIn() {
+        return null;
+    }
 }

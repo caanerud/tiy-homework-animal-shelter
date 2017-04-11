@@ -22,7 +22,7 @@ public class AnimalRepository {
 
         Statement statement = conn.createStatement();
 
-        ResultSet result = statement.executeQuery("SELECT * FROM animals ORDER BY id ASC ");
+        ResultSet result = statement.executeQuery("SELECT * FROM animals ORDER BY name ASC ");
         while(result.next()){
             Animal animal = new Animal(
                     result.getInt("id"),
@@ -60,31 +60,33 @@ public class AnimalRepository {
 
         ResultSet result = preparedStatement.executeQuery();
         result.next();
-        return result.getInt(1);
+        int id = result.getInt(1);
+        animal.setAnimalId(id);
+        return id;
 
 
     }
 
-    public class MenuService {
-        private AnimalRepository animalRepository;
+    public ArrayList<Animal> readAnimalByID(int animalId) throws SQLException {
+        ArrayList<Animal> animalArrayList = new ArrayList<>();
 
-        public MenuService(AnimalRepository animalRepository){
-            this.animalRepository = animalRepository;
+        PreparedStatement preparedStatement = conn.prepareStatement(
+                "SELECT * FROM animals WHERE id = ?");
+        preparedStatement.setInt(1, animalId);
+
+        ResultSet result = preparedStatement.executeQuery();
+
+        while(result.next()){
+            Animal ani = new Animal(
+                    result.getInt("id"),
+                    result.getString("name"),
+                    result.getString("species"),
+                    result.getString("breed"),
+                    result.getString("description")
+            );
+            animalArrayList.add(ani);
         }
-    }
-
-
-
-    public void listAnimal(Animal animal){
-
-
-    }
-
-
-
-
-    public void readAnimalByID(Animal animal){
-
+        return animalArrayList;
 
     }
 
@@ -104,14 +106,20 @@ public class AnimalRepository {
 
     }
 
-    public void saveNewAnimal(Animal animal){
 
+
+    public void deleteAnimal(int id) throws SQLException {
+        PreparedStatement preparedStatement = conn.prepareStatement(
+                "DELETE FROM animals WHERE id = ?");
+
+        preparedStatement.setInt(1, id);
+
+
+        preparedStatement.execute();
 
     }
 
-    public void deleteAnimal(Animal animal){
-
-
-    }
 
 }
+
+

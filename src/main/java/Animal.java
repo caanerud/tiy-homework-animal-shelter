@@ -20,7 +20,7 @@ public class Animal {
     private int animalId;
 
     public Animal(String name, String species, String breed, String description) {
-
+        this.animalId = -1;
         this.name = name;
         this.species = species;
         this.breed = breed;

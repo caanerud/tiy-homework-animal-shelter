@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
  */
 public class AnimalTest {
 
+
     Animal animal1(){
         return new Animal("name1", "species1", "breed1", "description1");
     }
@@ -15,7 +16,22 @@ public class AnimalTest {
     Animal animal2(){
         return new Animal(2,"name2", "species2", "breed2", "description2");
     }
-    
+
+    @Test
+    public void getAnimalId() throws Exception {
+        assertThat(animal1().getAnimalId(), equalTo(-1));
+        assertThat(animal2().getAnimalId(), equalTo(2));
+    }
+
+    @Test
+    public void setAnimalId() throws Exception {
+        Animal pet = animal1();
+        assertThat(pet.getAnimalId(), equalTo(-1));
+
+        pet.setAnimalId(2);
+
+        assertThat(pet.getAnimalId(), equalTo(2));
+    }
     @Test
     public void constructor1(){
 

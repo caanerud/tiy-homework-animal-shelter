@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -28,39 +30,37 @@ public class AnimalRepositoryTest {
         this.repository.animals();
     }
 
-    @Test
-    public void getAnimalTotal() throws Exception {
-        assertThat(this.repository.getAnimalTotal(), equalTo(3));
-    }
 
     @Test
     public void createAnimal() throws Exception {
+        //create a new animal and write it to the animals table
+        Animal animal1 = new Animal("a", "b","c", "d");
+        int id1 = repository.createAnimal(animal1);
+
+        //read back the just-written animal from the database
+        ArrayList<Animal>animals = repository.readAnimalByID(id1);
+
+        //we should have found the record that we just wrote
+        assertThat(animals.isEmpty(), equalTo(false));
+
+        //all of the fields of the newly read animal should match the fields of the original animal
+        Animal animal2 = animals.get(0);
+        assertThat(animal2.getName(), equalTo(animal1.getName()));
+        assertThat(animal2.getSpecies(), equalTo(animal1.getSpecies()));
+        assertThat(animal2.getBreed(), equalTo(animal1.getBreed()));
+        assertThat(animal2.getDescription(), equalTo(animal1.getDescription()));
+        assertThat(animal2.getAnimalId(), equalTo(animal1.getAnimalId()));
+
 
     }
 
-    @Test
-    public void listAnimal() throws Exception {
 
-    }
-
-    @Test
-    public void readAnimalByID() throws Exception {
-
-    }
-
-    @Test
-    public void saveAnimalEdit() throws Exception {
-
-    }
-
-    @Test
-    public void saveNewAnimal() throws Exception {
-
-    }
 
     @Test
     public void deleteAnimal() throws Exception {
-
+        for (Animal animal : repository.animals())
+            repository.deleteAnimal(animal.getAnimalId());
+        assertThat(repository.getAnimalTotal(), equalTo(0));
     }
 
     @Test
